@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sortie Stuttgart — TRIGEMA + Frühlingsfest — FR/DE</title>
+  <style>
+    :root{
+      --bg:#0b1020; --text:#e9ecf1; --muted:#a9b2c7;
+      --border:rgba(255,255,255,.12); --accent:#58a6ff;
+      --ok:#4ade80; --bad:#fb7185;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,var(--bg),#070b16);color:var(--text)}
+    .wrap{max-width:980px;margin:0 auto;padding:20px}
+    h1{font-size:20px;margin:0}
+    .sub{color:var(--muted);font-size:14px;margin-top:6px}
+    .tabs{display:flex;gap:8px;margin:18px 0 14px;flex-wrap:wrap}
+    .tab-btn{
+      border:1px solid var(--border); background:rgba(255,255,255,.04);
+      color:var(--text); padding:10px 12px; border-radius:12px; cursor:pointer;
+      font-weight:650;
+    }
+    .tab-btn[aria-selected="true"]{background:rgba(88,166,255,.15);border-color:rgba(88,166,255,.45)}
+    .card{border:1px solid var(--border);background:rgba(255,255,255,.04);border-radius:16px;padding:16px}
+    .grid{display:grid;gap:14px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .pill{font-size:12px;color:var(--muted);border:1px solid var(--border);padding:6px 10px;border-radius:999px}
+    .btn{
+      border:1px solid rgba(88,166,255,.55);
+      background:rgba(88,166,255,.12);
+      color:var(--text); padding:10px 12px; border-radius:12px; cursor:pointer; font-weight:750;
+    }
+    .btn.secondary{border-color:var(--border);background:rgba(255,255,255,.03);font-weight:650}
+    .q{padding:14px;border:1px solid var(--border);border-radius:14px;background:rgba(0,0,0,.12)}
+    .q h3{margin:0 0 10px;font-size:16px}
+    label.opt{display:flex;gap:10px;align-items:flex-start;margin:8px 0;cursor:pointer}
+    label.opt input{margin-top:3px}
+    .foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .result{font-weight:850}
+    .small{font-size:12px;color:var(--muted)}
+    .hidden{display:none!important}
+    .notice{padding:12px;border-radius:14px;border:1px dashed rgba(255,255,255,.2);background:rgba(255,255,255,.03);color:var(--muted)}
+    .ok{color:var(--ok)} .bad{color:var(--bad)}
+    input[type="password"], input[type="text"]{
+      background:rgba(0,0,0,.2); border:1px solid var(--border); color:var(--text);
+      padding:10px 12px; border-radius:12px; outline:none; min-width:220px;
+    }
+    .divider{height:1px;background:var(--border);margin:10px 0}
+    @media (max-width:520px){ .tab-btn{flex:1} .wrap{padding:14px} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="row" style="justify-content:space-between">
+      <div>
+        <h1>Sortie Stuttgart — QCM</h1>
+        <div class="sub">TRIGEMA + Frühlingsfest — FR (avec code) / DE (sans code) — correction automatique</div>
+      </div>
+      <div class="row">
+        <span class="pill">Téléphone ✅</span>
+        <span class="pill">2 QCM ✅</span>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Onglets">
+      <button class="tab-btn" data-tab="tri-fr" aria-selected="true">TRIGEMA 🇫🇷 (code)</button>
+      <button class="tab-btn" data-tab="tri-de" aria-selected="false">TRIGEMA 🇩🇪</button>
+      <button class="tab-btn" data-tab="fru-fr" aria-selected="false">Frühlingsfest 🇫🇷 (code)</button>
+      <button class="tab-btn" data-tab="fru-de" aria-selected="false">Frühlingsfest 🇩🇪</button>
+    </div>
+
+    <!-- ===================== TRIGEMA FR (LOCK) ===================== -->
+    <section class="grid tab-panel" id="tri-fr">
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <div>
+            <div class="pill">Accès protégé</div>
+            <div class="sub">Entrer le code professeur pour accéder au QCM TRIGEMA en français.</div>
+          </div>
+          <button class="btn secondary" id="tri-fr-lock-btn" type="button">Verrouiller</button>
+        </div>
+
+        <div class="divider"></div>
+
+        <div id="tri-fr-lock" class="grid">
+          <div class="notice">🔒 <b>Accès Français</b> : entre le code donné par le professeur.</div>
+          <div class="row">
+            <input id="tri-fr-code" type="password" placeholder="Code d’accès" autocomplete="off" />
+            <button class="btn" id="tri-fr-unlock-btn" type="button">Déverrouiller</button>
+            <span id="tri-fr-msg" class="small"></span>
+          </div>
+          <div class="small">Code modifiable en bas du fichier (TRIGEMA_FR_CODE).</div>
+        </div>
+
+        <div id="tri-fr-intro" class="hidden">
+          <div class="notice">
+            🎯 <b>Objectif AMP Indus</b> : observer le fonctionnement d’un site de production industrielle
+            (organisation, postes, sécurité, automatisation, contrôle qualité) et faire le lien avec les compétences vues en formation.
+          </div>
+        </div>
+      </div>
+
+      <div id="tri-fr-qcm" class="card hidden">
+        <b>QCM TRIGEMA (FR)</b>
+        <div class="small">Réponds puis clique sur “Corriger”.</div>
+        <div class="divider"></div>
+
+        <form id="form-tri-fr">
+          <div class="q" data-q="1"><h3>1) L’activité principale de l’usine TRIGEMA est :</h3>
+            <label class="opt"><input type="radio" name="q1" value="A"> A. Machines-outils</label>
+            <label class="opt"><input type="radio" name="q1" value="B"> B. Vêtements textiles</label>
+            <label class="opt"><input type="radio" name="q1" value="C"> C. Réparation de véhicules</label>
+            <label class="opt"><input type="radio" name="q1" value="D"> D. Composants électroniques</label>
+          </div>
+          <div class="q" data-q="2"><h3>2) Quel poste correspond à une activité de production industrielle ?</h3>
+            <label class="opt"><input type="radio" name="q2" value="A"> A. Accueil visiteurs</label>
+            <label class="opt"><input type="radio" name="q2" value="B"> B. Coupe et assemblage textile</label>
+            <label class="opt"><input type="radio" name="q2" value="C"> C. Gestion administrative</label>
+            <label class="opt"><input type="radio" name="q2" value="D"> D. Comptabilité</label>
+          </div>
+          <div class="q" data-q="3"><h3>3) Pourquoi organiser les postes de travail ?</h3>
+            <label class="opt"><input type="radio" name="q3" value="A"> A. Pour faire joli</label>
+            <label class="opt"><input type="radio" name="q3" value="B"> B. Productivité + moins de déplacements</label>
+            <label class="opt"><input type="radio" name="q3" value="C"> C. Occuper les salariés</label>
+            <label class="opt"><input type="radio" name="q3" value="D"> D. Compliquer</label>
+          </div>
+          <div class="q" data-q="4"><h3>4) Le port des EPI sert principalement à :</h3>
+            <label class="opt"><input type="radio" name="q4" value="A"> A. Dress code</label>
+            <label class="opt"><input type="radio" name="q4" value="B"> B. Protéger contre les risques</label>
+            <label class="opt"><input type="radio" name="q4" value="C"> C. Faire plaisir au chef</label>
+            <label class="opt"><input type="radio" name="q4" value="D"> D. Identifier visiteurs</label>
+          </div>
+          <div class="q" data-q="5"><h3>5) Quel risque possible dans une usine textile ?</h3>
+            <label class="opt"><input type="radio" name="q5" value="A"> A. Mécanique (machines en mouvement)</label>
+            <label class="opt"><input type="radio" name="q5" value="B"> B. Maritime</label>
+            <label class="opt"><input type="radio" name="q5" value="C"> C. Aérien</label>
+            <label class="opt"><input type="radio" name="q5" value="D"> D. Volcanique</label>
+          </div>
+          <div class="q" data-q="6"><h3>6) Pourquoi automatiser certaines tâches ?</h3>
+            <label class="opt"><input type="radio" name="q6" value="A"> A. Supprimer tous les emplois</label>
+            <label class="opt"><input type="radio" name="q6" value="B"> B. Précision + cadence</label>
+            <label class="opt"><input type="radio" name="q6" value="C"> C. Faire du bruit</label>
+            <label class="opt"><input type="radio" name="q6" value="D"> D. Compliquer</label>
+          </div>
+          <div class="q" data-q="7"><h3>7) Le contrôle qualité sert à :</h3>
+            <label class="opt"><input type="radio" name="q7" value="A"> A. Vérifier conformité avant expédition</label>
+            <label class="opt"><input type="radio" name="q7" value="B"> B. Accélérer sans contrôle</label>
+            <label class="opt"><input type="radio" name="q7" value="C"> C. Décorer</label>
+            <label class="opt"><input type="radio" name="q7" value="D"> D. Réparer machines</label>
+          </div>
+          <div class="q" data-q="8"><h3>8) Produire en Allemagne permet notamment :</h3>
+            <label class="opt"><input type="radio" name="q8" value="A"> A. Qualité + conditions de travail maîtrisées</label>
+            <label class="opt"><input type="radio" name="q8" value="B"> B. Éviter les normes</label>
+            <label class="opt"><input type="radio" name="q8" value="C"> C. Aucun contrôle</label>
+            <label class="opt"><input type="radio" name="q8" value="D"> D. Produire sans règles</label>
+          </div>
+
+          <div class="foot">
+            <div class="row">
+              <button class="btn" type="button" id="tri-fr-grade">Corriger</button>
+              <button class="btn secondary" type="button" id="tri-fr-reset">Réinitialiser</button>
+            </div>
+            <div>
+              <div class="result" id="tri-fr-result"></div>
+              <div class="small" id="tri-fr-detail"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== TRIGEMA DE (FREE) ===================== -->
+    <section class="grid tab-panel hidden" id="tri-de">
+      <div class="card">
+        <div class="notice">
+          🎯 <b>Ziel (AMP Indus)</b> : Den Ablauf einer industriellen Produktion beobachten (Organisation, Arbeitsplätze, Sicherheit, Automatisierung, Qualitätskontrolle).
+        </div>
+      </div>
+
+      <div class="card">
+        <b>Quiz TRIGEMA (DE)</b>
+        <div class="small">Antworten wählen und dann „Korrigieren“.</div>
+        <div class="divider"></div>
+
+        <form id="form-tri-de">
+          <div class="q" data-q="1"><h3>1) Die Haupttätigkeit von TRIGEMA ist:</h3>
+            <label class="opt"><input type="radio" name="q1" value="A"> A. Werkzeugmaschinen</label>
+            <label class="opt"><input type="radio" name="q1" value="B"> B. Textilkleidung</label>
+            <label class="opt"><input type="radio" name="q1" value="C"> C. Fahrzeugreparatur</label>
+            <label class="opt"><input type="radio" name="q1" value="D"> D. Elektronikmontage</label>
+          </div>
+          <div class="q" data-q="2"><h3>2) Was gehört zur Produktion?</h3>
+            <label class="opt"><input type="radio" name="q2" value="A"> A. Besucher empfangen</label>
+            <label class="opt"><input type="radio" name="q2" value="B"> B. Zuschneiden &amp; Zusammenbauen von Textilteilen</label>
+            <label class="opt"><input type="radio" name="q2" value="C"> C. Verwaltung</label>
+            <label class="opt"><input type="radio" name="q2" value="D"> D. Buchhaltung</label>
+          </div>
+          <div class="q" data-q="3"><h3>3) Warum Arbeitsplätze organisieren?</h3>
+            <label class="opt"><input type="radio" name="q3" value="A"> A. Damit es schön aussieht</label>
+            <label class="opt"><input type="radio" name="q3" value="B"> B. Produktivität erhöhen &amp; Wege reduzieren</label>
+            <label class="opt"><input type="radio" name="q3" value="C"> C. Mitarbeitende beschäftigen</label>
+            <label class="opt"><input type="radio" name="q3" value="D"> D. Erschweren</label>
+          </div>
+          <div class="q" data-q="4"><h3>4) PSA dient hauptsächlich dazu:</h3>
+            <label class="opt"><input type="radio" name="q4" value="A"> A. Dresscode</label>
+            <label class="opt"><input type="radio" name="q4" value="B"> B. Vor Risiken schützen</label>
+            <label class="opt"><input type="radio" name="q4" value="C"> C. Dem Chef gefallen</label>
+            <label class="opt"><input type="radio" name="q4" value="D"> D. Besucher erkennen</label>
+          </div>
+          <div class="q" data-q="5"><h3>5) Mögliches Risiko in einer Textilfabrik:</h3>
+            <label class="opt"><input type="radio" name="q5" value="A"> A. Mechanisches Risiko (bewegte Maschinen)</label>
+            <label class="opt"><input type="radio" name="q5" value="B"> B. Seerisiko</label>
+            <label class="opt"><input type="radio" name="q5" value="C"> C. Flugrisiko</label>
+            <label class="opt"><input type="radio" name="q5" value="D"> D. Vulkanrisiko</label>
+          </div>
+          <div class="q" data-q="6"><h3>6) Warum automatisieren?</h3>
+            <label class="opt"><input type="radio" name="q6" value="A"> A. Alle Jobs abschaffen</label>
+            <label class="opt"><input type="radio" name="q6" value="B"> B. Präzision &amp; Geschwindigkeit erhöhen</label>
+            <label class="opt"><input type="radio" name="q6" value="C"> C. Lärm machen</label>
+            <label class="opt"><input type="radio" name="q6" value="D"> D. Erschweren</label>
+          </div>
+          <div class="q" data-q="7"><h3>7) Wozu dient Qualitätskontrolle?</h3>
+            <label class="opt"><input type="radio" name="q7" value="A"> A. Konformität vor Versand prüfen</label>
+            <label class="opt"><input type="radio" name="q7" value="B"> B. Ohne Kontrolle beschleunigen</label>
+            <label class="opt"><input type="radio" name="q7" value="C"> C. Dekorieren</label>
+            <label class="opt"><input type="radio" name="q7" value="D"> D. Maschinen reparieren</label>
+          </div>
+          <div class="q" data-q="8"><h3>8) In Deutschland zu produzieren ermöglicht:</h3>
+            <label class="opt"><input type="radio" name="q8" value="A"> A. Qualität &amp; Arbeitsbedingungen besser kontrollieren</label>
+            <label class="opt"><input type="radio" name="q8" value="B"> B. Normen vermeiden</label>
+            <label class="opt"><input type="radio" name="q8" value="C"> C. Keine Kontrollen</label>
+            <label class="opt"><input type="radio" name="q8" value="D"> D. Ohne Regeln arbeiten</label>
+          </div>
+
+          <div class="foot">
+            <div class="row">
+              <button class="btn" type="button" id="tri-de-grade">Korrigieren</button>
+              <button class="btn secondary" type="button" id="tri-de-reset">Zurücksetzen</button>
+            </div>
+            <div>
+              <div class="result" id="tri-de-result"></div>
+              <div class="small" id="tri-de-detail"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== FRÜHLINGSFEST FR (LOCK) ===================== -->
+    <section class="grid tab-panel hidden" id="fru-fr">
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <div>
+            <div class="pill">Accès protégé</div>
+            <div class="sub">Entrer le code professeur pour accéder au QCM Frühlingsfest en français.</div>
+          </div>
+          <button class="btn secondary" id="fru-fr-lock-btn" type="button">Verrouiller</button>
+        </div>
+
+        <div class="divider"></div>
+
+        <div id="fru-fr-lock" class="grid">
+          <div class="notice">🔒 <b>Accès Français</b> : entre le code donné par le professeur.</div>
+          <div class="row">
+            <input id="fru-fr-code" type="password" placeholder="Code d’accès" autocomplete="off" />
+            <button class="btn" id="fru-fr-unlock-btn" type="button">Déverrouiller</button>
+            <span id="fru-fr-msg" class="small"></span>
+          </div>
+          <div class="small">Code modifiable en bas du fichier (FRUHLING_FR_CODE).</div>
+        </div>
+
+        <div id="fru-fr-intro" class="hidden">
+          <div class="notice">
+            🎯 <b>Objectif</b> : découvrir un événement culturel allemand et adopter les bons comportements en sortie
+            (sécurité, respect des règles, déplacement, consommation responsable) + mobiliser du vocabulaire allemand utile.
+          </div>
+        </div>
+      </div>
+
+      <div id="fru-fr-qcm" class="card hidden">
+        <b>QCM Frühlingsfest (FR)</b>
+        <div class="small">Réponds puis clique sur “Corriger”.</div>
+        <div class="divider"></div>
+
+        <form id="form-fru-fr">
+          <div class="q" data-q="1"><h3>1) L’objectif de notre passage au Frühlingsfest est surtout :</h3>
+            <label class="opt"><input type="radio" name="q1" value="A"> A. Uniquement faire la fête</label>
+            <label class="opt"><input type="radio" name="q1" value="B"> B. Découvrir un événement culturel + apprendre les bonnes pratiques en sortie</label>
+            <label class="opt"><input type="radio" name="q1" value="C"> C. Remplacer les cours</label>
+            <label class="opt"><input type="radio" name="q1" value="D"> D. Shopping obligatoire</label>
+          </div>
+          <div class="q" data-q="2"><h3>2) Quel comportement est le plus adapté dans un grand événement public ?</h3>
+            <label class="opt"><input type="radio" name="q2" value="A"> A. Rester en groupe + respecter les consignes</label>
+            <label class="opt"><input type="radio" name="q2" value="B"> B. Partir seul sans prévenir</label>
+            <label class="opt"><input type="radio" name="q2" value="C"> C. Courir partout</label>
+            <label class="opt"><input type="radio" name="q2" value="D"> D. Ignorer les règles</label>
+          </div>
+          <div class="q" data-q="3"><h3>3) Si une zone est interdite / dangereuse, on doit :</h3>
+            <label class="opt"><input type="radio" name="q3" value="A"> A. Y aller quand même</label>
+            <label class="opt"><input type="radio" name="q3" value="B"> B. Respecter le balisage et s’éloigner</label>
+            <label class="opt"><input type="radio" name="q3" value="C"> C. Filmer pour les réseaux</label>
+            <label class="opt"><input type="radio" name="q3" value="D"> D. Envoyer un ami</label>
+          </div>
+          <div class="q" data-q="4"><h3>4) “Consommation responsable” pendant une sortie, c’est :</h3>
+            <label class="opt"><input type="radio" name="q4" value="A"> A. Dépenser sans compter</label>
+            <label class="opt"><input type="radio" name="q4" value="B"> B. Gérer son budget + respecter le lieu (propreté)</label>
+            <label class="opt"><input type="radio" name="q4" value="C"> C. Laisser ses déchets</label>
+            <label class="opt"><input type="radio" name="q4" value="D"> D. Acheter uniquement des souvenirs</label>
+          </div>
+          <div class="q" data-q="5"><h3>5) Quel mot allemand correspond à “sécurité” ?</h3>
+            <label class="opt"><input type="radio" name="q5" value="A"> A. Sicherheit</label>
+            <label class="opt"><input type="radio" name="q5" value="B"> B. Schule</label>
+            <label class="opt"><input type="radio" name="q5" value="C"> C. Straße</label>
+            <label class="opt"><input type="radio" name="q5" value="D"> D. Arbeit</label>
+          </div>
+          <div class="q" data-q="6"><h3>6) Pour demander poliment une information :</h3>
+            <label class="opt"><input type="radio" name="q6" value="A"> A. “Gib mir das!”</label>
+            <label class="opt"><input type="radio" name="q6" value="B"> B. “Entschuldigung, können Sie mir helfen?”</label>
+            <label class="opt"><input type="radio" name="q6" value="C"> C. “Was willst du?”</label>
+            <label class="opt"><input type="radio" name="q6" value="D"> D. “Nein.”</label>
+          </div>
+          <div class="q" data-q="7"><h3>7) Quel métier peut travailler lors d’un événement comme le Frühlingsfest ?</h3>
+            <label class="opt"><input type="radio" name="q7" value="A"> A. Sécurité / service / organisation</label>
+            <label class="opt"><input type="radio" name="q7" value="B"> B. Astronaute</label>
+            <label class="opt"><input type="radio" name="q7" value="C"> C. Pilote de chasse</label>
+            <label class="opt"><input type="radio" name="q7" value="D"> D. Prof de natation</label>
+          </div>
+          <div class="q" data-q="8"><h3>8) En cas de problème, le bon réflexe est :</h3>
+            <label class="opt"><input type="radio" name="q8" value="A"> A. Ne rien dire</label>
+            <label class="opt"><input type="radio" name="q8" value="B"> B. Prévenir immédiatement un adulte référent</label>
+            <label class="opt"><input type="radio" name="q8" value="C"> C. Se cacher</label>
+            <label class="opt"><input type="radio" name="q8" value="D"> D. Partir seul à l’hôtel</label>
+          </div>
+
+          <div class="foot">
+            <div class="row">
+              <button class="btn" type="button" id="fru-fr-grade">Corriger</button>
+              <button class="btn secondary" type="button" id="fru-fr-reset">Réinitialiser</button>
+            </div>
+            <div>
+              <div class="result" id="fru-fr-result"></div>
+              <div class="small" id="fru-fr-detail"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== FRÜHLINGSFEST DE (FREE) ===================== -->
+    <section class="grid tab-panel hidden" id="fru-de">
+      <div class="card">
+        <div class="notice">
+          🎯 <b>Ziel</b> : Ein deutsches Kulturereignis entdecken und richtiges Verhalten lernen
+          (Sicherheit, Regeln, Transport, verantwortungsvoller Konsum) + nützliches Deutsch anwenden.
+        </div>
+      </div>
+
+      <div class="card">
+        <b>Quiz Frühlingsfest (DE)</b>
+        <div class="small">Antworten wählen und dann „Korrigieren“.</div>
+        <div class="divider"></div>
+
+        <form id="form-fru-de">
+          <div class="q" data-q="1"><h3>1) Das wichtigste Ziel unseres Besuchs ist:</h3>
+            <label class="opt"><input type="radio" name="q1" value="A"> A. Nur feiern</label>
+            <label class="opt"><input type="radio" name="q1" value="B"> B. Kultur entdecken + richtiges Verhalten lernen</label>
+            <label class="opt"><input type="radio" name="q1" value="C"> C. Alle Kurse ersetzen</label>
+            <label class="opt"><input type="radio" name="q1" value="D"> D. Pflicht-Shopping</label>
+          </div>
+          <div class="q" data-q="2"><h3>2) Bestes Verhalten bei großem Event:</h3>
+            <label class="opt"><input type="radio" name="q2" value="A"> A. In der Gruppe bleiben + Anweisungen beachten</label>
+            <label class="opt"><input type="radio" name="q2" value="B"> B. Alleine weggehen ohne Bescheid</label>
+            <label class="opt"><input type="radio" name="q2" value="C"> C. Überall rennen</label>
+            <label class="opt"><input type="radio" name="q2" value="D"> D. Regeln ignorieren</label>
+          </div>
+          <div class="q" data-q="3"><h3>3) Bei gesperrtem/gefährlichem Bereich:</h3>
+            <label class="opt"><input type="radio" name="q3" value="A"> A. Trotzdem kurz hingehen</label>
+            <label class="opt"><input type="radio" name="q3" value="B"> B. Absperrung respektieren + Abstand halten</label>
+            <label class="opt"><input type="radio" name="q3" value="C"> C. Filmen für Social Media</label>
+            <label class="opt"><input type="radio" name="q3" value="D"> D. Freund schicken</label>
+          </div>
+          <div class="q" data-q="4"><h3>4) Verantwortungsvoller Konsum bedeutet:</h3>
+            <label class="opt"><input type="radio" name="q4" value="A"> A. Ohne Limit ausgeben</label>
+            <label class="opt"><input type="radio" name="q4" value="B"> B. Budget beachten + sauber bleiben (Müll)</label>
+            <label class="opt"><input type="radio" name="q4" value="C"> C. Müll liegen lassen</label>
+            <label class="opt"><input type="radio" name="q4" value="D"> D. Nur Souvenirs</label>
+          </div>
+          <div class="q" data-q="5"><h3>5) „Sécurité“ heißt:</h3>
+            <label class="opt"><input type="radio" name="q5" value="A"> A. Sicherheit</label>
+            <label class="opt"><input type="radio" name="q5" value="B"> B. Schule</label>
+            <label class="opt"><input type="radio" name="q5" value="C"> C. Straße</label>
+            <label class="opt"><input type="radio" name="q5" value="D"> D. Arbeit</label>
+          </div>
+          <div class="q" data-q="6"><h3>6) Höflich nach Hilfe fragen:</h3>
+            <label class="opt"><input type="radio" name="q6" value="A"> A. „Gib mir das!“</label>
+            <label class="opt"><input type="radio" name="q6" value="B"> B. „Entschuldigung, können Sie mir helfen?“</label>
+            <label class="opt"><input type="radio" name="q6" value="C"> C. „Was willst du?“</label>
+            <label class="opt"><input type="radio" name="q6" value="D"> D. „Nein.“</label>
+          </div>
+          <div class="q" data-q="7"><h3>7) Wer kann bei so einem Event arbeiten?</h3>
+            <label class="opt"><input type="radio" name="q7" value="A"> A. Sicherheit / Service / Organisation</label>
+            <label class="opt"><input type="radio" name="q7" value="B"> B. Astronaut</label>
+            <label class="opt"><input type="radio" name="q7" value="C"> C. Kampfjet-Pilot</label>
+            <label class="opt"><input type="radio" name="q7" value="D"> D. Schwimmlehrer</label>
+          </div>
+          <div class="q" data-q="8"><h3>8) Bei Problem ist beste Reaktion:</h3>
+            <label class="opt"><input type="radio" name="q8" value="A"> A. Nichts sagen</label>
+            <label class="opt"><input type="radio" name="q8" value="B"> B. Sofort Aufsichtsperson informieren</label>
+            <label class="opt"><input type="radio" name="q8" value="C"> C. Verstecken</label>
+            <label class="opt"><input type="radio" name="q8" value="D"> D. Alleine zum Hotel</label>
+          </div>
+
+          <div class="foot">
+            <div class="row">
+              <button class="btn" type="button" id="fru-de-grade">Korrigieren</button>
+              <button class="btn secondary" type="button" id="fru-de-reset">Zurücksetzen</button>
+            </div>
+            <div>
+              <div class="result" id="fru-de-result"></div>
+              <div class="small" id="fru-de-detail"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // =========================
+    // CODES D'ACCÈS (PROF)
+    // =========================
+    const TRIGEMA_FR_CODE = "stuttgart";
+    const FRUHLING_FR_CODE = "stuttgart";
+
+    // =========================
+    // TAB SWITCH
+    // =========================
+    const tabBtns = Array.from(document.querySelectorAll(".tab-btn"));
+    const panels = Array.from(document.querySelectorAll(".tab-panel"));
+    function showTab(id){
+      panels.forEach(p => p.classList.toggle("hidden", p.id !== id));
+      tabBtns.forEach(b => b.setAttribute("aria-selected", b.dataset.tab === id ? "true":"false"));
+    }
+    tabBtns.forEach(b => b.addEventListener("click", ()=>showTab(b.dataset.tab)));
+
+    // =========================
+    // LOCK HELPERS
+    // =========================
+    function makeLocker(opts){
+      const {sessionKey, codeValue, inputId, unlockBtnId, lockBtnId, msgId, lockBoxId, introId, qcmId} = opts;
+      const input = document.getElementById(inputId);
+      const unlockBtn = document.getElementById(unlockBtnId);
+      const lockBtn = document.getElementById(lockBtnId);
+      const msg = document.getElementById(msgId);
+      const lockBox = document.getElementById(lockBoxId);
+      const intro = document.getElementById(introId);
+      const qcm = document.getElementById(qcmId);
+
+      function setUnlocked(u){
+        sessionStorage.setItem(sessionKey, u ? "1":"0");
+        lockBox.classList.toggle("hidden", u);
+        intro.classList.toggle("hidden", !u);
+        qcm.classList.toggle("hidden", !u);
+        msg.textContent = "";
+        input.value = "";
+      }
+      function check(){
+        const ok = (input.value || "").trim() === codeValue;
+        if(ok) setUnlocked(true);
+        else { msg.textContent = "Code incorrect ❌"; msg.className = "small bad"; }
+      }
+      unlockBtn.addEventListener("click", check);
+      input.addEventListener("keydown", (e)=>{ if(e.key==="Enter"){ e.preventDefault(); check(); }});
+      lockBtn.addEventListener("click", ()=>setUnlocked(false));
+      setUnlocked(sessionStorage.getItem(sessionKey)==="1");
+    }
+
+    makeLocker({
+      sessionKey:"tri_fr_unlock",
+      codeValue:TRIGEMA_FR_CODE,
+      inputId:"tri-fr-code",
+      unlockBtnId:"tri-fr-unlock-btn",
+      lockBtnId:"tri-fr-lock-btn",
+      msgId:"tri-fr-msg",
+      lockBoxId:"tri-fr-lock",
+      introId:"tri-fr-intro",
+      qcmId:"tri-fr-qcm"
+    });
+
+    makeLocker({
+      sessionKey:"fru_fr_unlock",
+      codeValue:FRUHLING_FR_CODE,
+      inputId:"fru-fr-code",
+      unlockBtnId:"fru-fr-unlock-btn",
+      lockBtnId:"fru-fr-lock-btn",
+      msgId:"fru-fr-msg",
+      lockBoxId:"fru-fr-lock",
+      introId:"fru-fr-intro",
+      qcmId:"fru-fr-qcm"
+    });
+
+    // =========================
+    // GRADING ENGINE (reused)
+    // =========================
+    function attachGrader(formId, gradeBtnId, resetBtnId, resultId, detailId, answers){
+      const form = document.getElementById(formId);
+      const gradeBtn = document.getElementById(gradeBtnId);
+      const resetBtn = document.getElementById(resetBtnId);
+      const resultEl = document.getElementById(resultId);
+      const detailEl = document.getElementById(detailId);
+      const total = Object.keys(answers).length;
+
+      function highlight(fd){
+        form.querySelectorAll(".q").forEach(qDiv => qDiv.style.outline = "none");
+        for(const [q, good] of Object.entries(answers)){
+          const chosen = fd.get(q);
+          const qDiv = form.querySelector(`.q[data-q="${q.replace("q","")}"]`);
+          if(!qDiv) continue;
+          qDiv.style.outline = (chosen === good)
+            ? "2px solid rgba(74,222,128,.55)"
+            : "2px solid rgba(251,113,133,.55)";
+        }
+      }
+
+      function grade(){
+        const fd = new FormData(form);
+        let score = 0;
+        const misses = [];
+        for(const [q, good] of Object.entries(answers)){
+          const chosen = fd.get(q);
+          if(chosen === good) score++;
+          else misses.push(q.replace("q",""));
+        }
+        const pct = Math.round((score/total)*100);
+        resultEl.innerHTML = `Score : <span class="${score===total?'ok':(score>=6?'ok':'bad')}">${score}/${total}</span> (${pct}%)`;
+        detailEl.textContent = misses.length ? `À revoir : question(s) ${misses.join(", ")}` : "Parfait ✅";
+        highlight(fd);
+      }
+
+      function reset(){
+        form.reset();
+        resultEl.textContent = "";
+        detailEl.textContent = "";
+        form.querySelectorAll(".q").forEach(qDiv => qDiv.style.outline = "none");
+      }
+
+      gradeBtn.addEventListener("click", grade);
+      resetBtn.addEventListener("click", reset);
+    }
+
+    // TRIGEMA answers (FR+DE same)
+    const TRI_ANS = { q1:"B", q2:"B", q3:"B", q4:"B", q5:"A", q6:"B", q7:"A", q8:"A" };
+
+    // FRÜHLINGSFEST answers (FR+DE same)
+    const FRU_ANS = { q1:"B", q2:"A", q3:"B", q4:"B", q5:"A", q6:"B", q7:"A", q8:"B" };
+
+    attachGrader("form-tri-fr","tri-fr-grade","tri-fr-reset","tri-fr-result","tri-fr-detail",TRI_ANS);
+    attachGrader("form-tri-de","tri-de-grade","tri-de-reset","tri-de-result","tri-de-detail",TRI_ANS);
+    attachGrader("form-fru-fr","fru-fr-grade","fru-fr-reset","fru-fr-result","fru-fr-detail",FRU_ANS);
+    attachGrader("form-fru-de","fru-de-grade","fru-de-reset","fru-de-result","fru-de-detail",FRU_ANS);
+
+    // default tab
+    showTab("tri-fr");
+  </script>
+</body>
+</html>
